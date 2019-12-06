@@ -56,15 +56,32 @@ class Calculator{
         this.operation = undefined;
     }
 
-    
+    getDisplayNumber(number){
+        const stringNumer = number.toString();
+        const integerDigits = parseFloat(stringNumer.split('.')[0]);
+        const decimalDigits = stringNumer.split('.')[1];
+        let integerDisplay;
+        if (isNaN(integerDigits))
+            integerDisplay = '';
+        else{
+            integerDisplay = integerDigits.toLocaleString('en', {maximumFractionDigits: 0});
+        }
+        if (decimalDigits != null){
+            return `${integerDigits}.${decimalDigits}`;
+        }
+        else
+            return integerDisplay;
+            
+    }
 
     updateDisplay(){
-        this.currentOperandTextElement.innerText = this.currentOperandElement;
+        this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperandElement);
         if (this.operation === undefined){
-            this.previousOperandTextElement.innerText = this.previousOperandElement;
+            this.previousOperandTextElement.innerText = '';
         } 
         else
-            this.previousOperandTextElement.innerText = this.previousOperandElement + this.operation.toString();
+            this.previousOperandTextElement.innerText = 
+            `${this.getDisplayNumber(this.previousOperandElement)} ${this.operation}`;
     }
 
 }
